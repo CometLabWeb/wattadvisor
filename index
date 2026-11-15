@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WattAdvisor: calcolatore gratuito e locale per stimare i consumi elettrici domestici e il risparmio energetico.">
+    <meta name="referrer" content="no-referrer">
     <title>WattAdvisor | Smart Energy Calculator</title>
     <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
         :root {
             --primary: #0d9488;
             --primary-dark: #0f766e;
@@ -18,28 +26,29 @@
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: #0b1120;
-            background-image: 
+            background-image:
                 radial-gradient(at 15% 15%, rgba(13, 148, 136, 0.35) 0px, transparent 50%),
                 radial-gradient(at 85% 85%, rgba(245, 158, 11, 0.25) 0px, transparent 50%),
                 radial-gradient(at 50% 50%, rgba(45, 212, 191, 0.2) 0px, transparent 70%),
                 linear-gradient(135deg, #0b1120 0%, #1e293b 100%);
             color: var(--text-main);
             margin: 0;
-            padding: 10px 20px;
+            padding: 16px 20px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             overflow-x: hidden;
         }
 
         .outer-frame {
             width: 100%;
             max-width: 1350px;
+            margin: auto 0;
             background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
             padding: 4px;
             border-radius: 20px;
-            box-shadow: 
+            box-shadow:
                 0 25px 50px -12px rgba(0, 0, 0, 0.7),
                 0 0 0 1px rgba(255, 255, 255, 0.12) inset,
                 0 4px 6px -1px rgba(0, 0, 0, 0.3);
@@ -49,9 +58,9 @@
             background: var(--card-bg);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            padding: 16px 25px;
+            padding: 18px 24px;
             border-radius: 18px;
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 2px 0 rgba(255, 255, 255, 0.9),
                 inset 0 -2px 5px rgba(0, 0, 0, 0.05);
             position: relative;
@@ -70,37 +79,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 12px;
-            position: relative;
-        }
-
-        .visitor-counter {
-            position: absolute;
-            top: -2px;
-            right: 0;
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .visitor-counter span {
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        @media (max-width: 768px) {
-            .visitor-counter {
-                position: static;
-                display: inline-flex;
-                margin-bottom: 6px;
-            }
+            margin-bottom: 14px;
         }
 
         .logo-badge {
@@ -154,7 +133,7 @@
             border-radius: 8px;
             border: 1px solid rgba(203, 213, 225, 0.8);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02) inset;
-            transition: all 0.2s ease;
+            transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
         }
 
         .form-group:hover {
@@ -182,36 +161,45 @@
         label {
             display: block;
             font-weight: 700;
-            margin-bottom: 2px;
-            font-size: 9px;
+            margin-bottom: 3px;
+            font-size: 10px;
             color: var(--primary-dark);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
-            padding: 5px 8px;
+            padding: 6px 8px;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
-            box-sizing: border-box;
             font-size: 12px;
-            background-color: rgba(255, 255, 255, 0.9);
+            font-family: inherit;
+            background-color: rgba(255, 255, 255, 0.92);
             color: var(--text-main);
-            transition: all 0.2s ease;
+            transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        input:focus, select:focus {
+        input:focus-visible,
+        select:focus-visible,
+        .btn-altra-pillola:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        input:focus,
+        select:focus {
             outline: none;
             border-color: var(--primary);
             background-color: #ffffff;
-            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.12);
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.14);
         }
 
         .result-box {
             background: linear-gradient(135deg, rgba(240, 253, 244, 0.96) 0%, rgba(204, 251, 241, 0.96) 100%);
             border: 1.5px solid #5eead4;
-            padding: 10px 16px;
+            padding: 12px 16px;
             border-radius: 12px;
             text-align: center;
             margin-top: 12px;
@@ -234,26 +222,25 @@
             font-size: 28px;
             font-weight: 800;
             color: var(--primary);
-            margin: 2px 0;
+            margin: 4px 0;
         }
 
         #consiglioRisparmio {
             font-size: 11px;
             color: var(--text-main);
             margin: 2px 0 0 0;
-            line-height: 1.2;
+            line-height: 1.3;
             font-weight: 500;
         }
 
         .story-box {
             width: 100%;
-            box-sizing: border-box;
             background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             border: 2px solid #f59e0b;
             border-left: 6px solid #b45309;
             padding: 8px 14px;
             border-radius: 10px;
-            margin-top: 8px;
+            margin-top: 10px;
             font-size: 11px;
             text-align: left;
             color: #78350f;
@@ -264,22 +251,29 @@
             gap: 12px;
         }
 
+        @media (max-width: 600px) {
+            .story-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
         .story-content {
-            line-height: 1.3;
+            line-height: 1.35;
             font-weight: 600;
         }
 
         .btn-altra-pillola {
             background: #b45309;
-            color: white;
+            color: #ffffff;
             border: none;
-            padding: 5px 12px;
+            padding: 6px 12px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
             white-space: nowrap;
-            transition: all 0.2s;
+            transition: background 0.2s ease, transform 0.2s ease;
             box-shadow: 0 2px 4px rgba(180, 83, 9, 0.3);
         }
 
@@ -289,13 +283,17 @@
         }
 
         .site-footer {
-            margin-top: 10px;
+            margin-top: 12px;
             padding-top: 8px;
             border-top: 1px solid #e2e8f0;
-            font-size: 9px;
+            font-size: 10px;
             color: var(--text-muted);
             text-align: center;
-            line-height: 1.3;
+            line-height: 1.4;
+        }
+
+        .site-footer p {
+            margin: 0;
         }
     </style>
 </head>
@@ -303,167 +301,232 @@
 
 <div class="outer-frame">
     <div class="container">
-        <div class="header">
-            <div class="visitor-counter">
-                👀 Visite: <span id="counterValue">...</span>
-            </div>
-            
+        <header class="header">
             <div class="logo-badge">Smart Energy Tools</div>
             <h1>⚡ WattAdvisor</h1>
             <p class="subtitle">Ottimizza i consumi domestici e calcola il risparmio reale.</p>
-        </div>
+        </header>
 
-        <div class="grid-section">
-            <div class="form-group full-width">
-                <label for="costoKwh">💶 Costo medio dell'energia (€ al kWh)</label>
-                <input type="number" id="costoKwh" value="0.25" step="0.01" oninput="calcolaConsumi()">
-            </div>
+        <main>
+            <form class="grid-section" id="wattForm" onsubmit="return false;" aria-label="Parametri di calcolo consumi">
+                <div class="form-group full-width">
+                    <label for="costoKwh">💶 Costo medio dell'energia (€ al kWh)</label>
+                    <input type="number" id="costoKwh" name="costoKwh" value="0.25" min="0" max="10" step="0.01">
+                </div>
 
-            <div class="form-group">
-                <label for="frigo">❄️ Tipo di Frigorifero</label>
-                <select id="frigo" onchange="calcolaConsumi()">
-                    <option value="350">Vecchio o grande (350 kWh)</option>
-                    <option value="250" selected>Standard / Moderno (250 kWh)</option>
-                    <option value="150">Alta efficienza A/B (150 kWh)</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="frigo">❄️ Tipo di Frigorifero</label>
+                    <select id="frigo" name="frigo">
+                        <option value="350">Vecchio o grande (350 kWh)</option>
+                        <option value="250" selected>Standard / Moderno (250 kWh)</option>
+                        <option value="150">Alta efficienza A/B (150 kWh)</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="lavatrice">👕 Lavatrici a settimana</label>
-                <input type="number" id="lavatrice" value="3" oninput="calcolaConsumi()">
-            </div>
+                <div class="form-group">
+                    <label for="lavatrice">👕 Lavatrici a settimana</label>
+                    <input type="number" id="lavatrice" name="lavatrice" value="3" min="0" max="50" step="1">
+                </div>
 
-            <div class="form-group">
-                <label for="condizionatore">🌤️ Condizionatore (ore/giorno)</label>
-                <input type="number" id="condizionatore" value="2" oninput="calcolaConsumi()">
-            </div>
+                <div class="form-group">
+                    <label for="condizionatore">🌤️ Condizionatore (ore/giorno)</label>
+                    <input type="number" id="condizionatore" name="condizionatore" value="2" min="0" max="24" step="0.5">
+                </div>
 
-            <div class="form-group">
-                <label for="modem">📡 Modem Wi-Fi (24/7)</label>
-                <select id="modem" onchange="calcolaConsumi()">
-                    <option value="1" selected>Sì, sempre acceso (~12W)</option>
-                    <option value="0">No / Spento la notte</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="modem">📡 Modem Wi-Fi (24/7)</label>
+                    <select id="modem" name="modem">
+                        <option value="1" selected>Sì, sempre acceso (~12W)</option>
+                        <option value="0">No / Spento la notte</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="microonde">🍲 Uso microonde (volte/sett.)</label>
-                <input type="number" id="microonde" value="5" oninput="calcolaConsumi()">
-            </div>
+                <div class="form-group">
+                    <label for="microonde">🍲 Uso microonde (volte/sett.)</label>
+                    <input type="number" id="microonde" name="microonde" value="5" min="0" max="100" step="1">
+                </div>
 
-            <div class="form-group">
-                <label for="standby">🔌 Dispositivi in Stand-by</label>
-                <select id="standby" onchange="calcolaConsumi()">
-                    <option value="5">Pochi (~5 dispositivi)</option>
-                    <option value="10" selected>Medi (~10 dispositivi)</option>
-                    <option value="20">Molti (oltre 15-20)</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="standby">🔌 Dispositivi in Stand-by</label>
+                    <select id="standby" name="standby">
+                        <option value="5">Pochi (~5 dispositivi)</option>
+                        <option value="10" selected>Medi (~10 dispositivi)</option>
+                        <option value="20">Molti (oltre 15-20)</option>
+                    </select>
+                </div>
 
-            <div class="form-group full-width">
-                <label for="lampadine">💡 Lampadine tradizionali ancora in uso</label>
-                <input type="number" id="lampadine" value="5" oninput="calcolaConsumi()">
-            </div>
-        </div>
+                <div class="form-group full-width">
+                    <label for="lampadine">💡 Lampadine tradizionali ancora in uso</label>
+                    <input type="number" id="lampadine" name="lampadine" value="5" min="0" max="200" step="1">
+                </div>
+            </form>
 
-        <div class="result-box">
-            <h2>Stima della spesa annuale</h2>
-            <div class="price" id="spesaTotale">0 €</div>
-            <p id="consiglioRisparmio"></p>
-            
-            <div class="story-box">
-                <div class="story-content" id="testoPillola">Caricamento consiglio smart...</div>
-                <button class="btn-altra-pillola" onclick="mostraNuovaPillola()">Prossima 💡</button>
-            </div>
-        </div>
+            <section class="result-box" aria-label="Risultati stima energetica">
+                <h2>Stima della spesa annuale</h2>
+                <div class="price" id="spesaTotale" aria-live="polite">0,00 € / anno</div>
+                <p id="consiglioRisparmio" aria-live="polite"></p>
 
-        <div class="site-footer">
+                <div class="story-box">
+                    <div class="story-content" id="testoPillola" aria-live="polite"></div>
+                    <button type="button" class="btn-altra-pillola" id="btnNuovaPillola">Prossima 💡</button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
             <p>
-                <strong>Note e Trasparenza:</strong> WattAdvisor è uno strumento educativo gratuito. Le stime di consumo e le tariffe di riferimento vengono 
-                <strong>aggiornate ogni tre mesi</strong> in base alle disposizioni e alle variazioni pubblicate da <strong>ARERA</strong> ed <strong>ENEA</strong>. 
-                Tutti i calcoli avvengono interamente nel tuo browser: nessun dato personale viene raccolto o salvato sui server (rispetto totale del GDPR).
+                <strong>Note e Trasparenza:</strong> WattAdvisor è uno strumento educativo gratuito. Le stime di consumo e le tariffe di riferimento vengono
+                <strong>aggiornate periodicamente</strong> in base alle indicazioni pubblicate da <strong>ARERA</strong> ed <strong>ENEA</strong>.
+                Tutti i calcoli avvengono interamente nel tuo browser senza alcuna richiesta a server esterni o raccolta dati (rispetto totale del GDPR).
             </p>
-        </div>
+        </footer>
     </div>
 </div>
 
 <script>
-    // Funzione per collegare il contatore di visite reale
-    async function avviaContatoreVisite() {
-        try {
-            let response = await fetch('https://api.countapi.xyz/hit/wattadvisor-app/visite');
-            let data = await response.json();
-            document.getElementById('counterValue').innerText = data.value.toLocaleString('it-IT');
-        } catch (error) {
-            document.getElementById('counterValue').innerText = "1.000+";
-        }
-    }
+    "use strict";
 
-    const databasePillole = [
-        "🌱 <strong>Consiglio Smart:</strong> Il frigorifero andrebbe tenuto lontano da fonti di calore come forni o termosifoni e non attaccato al muro per favorire la circolazione dell'aria.",
-        "🔋 <strong>Consiglio Smart:</strong> Lasciare i caricabatterie inseriti nella presa a muro senza il telefono collegato genera un piccolo consumo continuo invisibile.",
-        "👕 <strong>Consiglio Smart:</strong> Usare la lavatrice a pieno carico e preferire programmi a basse temperature (30°-40°) riduce drasticamente i consumi.",
-        "❄️ <strong>Consiglio Smart:</strong> Sbrinare regolarmente il congelatore è fondamentale: uno strato di ghiaccio di pochi millimetri aumenta i consumi fino al 30%.",
-        "⚡ <strong>Consiglio Smart:</strong> Il forno a microonde consuma circa la metà rispetto a un forno elettrico tradizionale per scaldare piccole porzioni.",
-        "🔌 <strong>Consiglio Smart:</strong> Spegnere completamente la televisione o il decoder tramite una ciabatta con interruttore evita lo spreco della luce di stand-by.",
-        "🍽️ <strong>Consiglio Smart:</strong> La lavastoviglie a pieno carico consuma meno acqua e meno energia rispetto al lavaggio a mano di una pari quantità di stoviglie.",
-        "❄️ <strong>Consiglio Smart:</strong> Pulire regolarmente i filtri dei condizionatori prima dell'estate evita sforzi inutili al compressore e fa calare i consumi.",
-        "💡 <strong>Consiglio Smart:</strong> Una lampadina a LED consuma fino all'85% in meno di energia rispetto a una vecchia lampadina a incandescenza.",
-        "🌡️ <strong>Consiglio Smart:</strong> Abbassare la temperatura del riscaldamento di appena 1 grado centigrado permette di risparmiare dal 5% al 10% sui consumi.",
-        "☀️ <strong>Consiglio Smart:</strong> Lasciare le tapparelle abbassate durante le ore più calde d'estate riduce l'ingresso di calore limitando l'uso del condizionatore."
+    const DATABASE_PILLOLE = [
+        { icona: "🌱", testo: "Il frigorifero andrebbe tenuto lontano da fonti di calore come forni o termosifoni e non attaccato al muro per favorire la circolazione dell'aria." },
+        { icona: "🔋", testo: "Lasciare i caricabatterie inseriti nella presa a muro senza il telefono collegato genera un piccolo consumo continuo invisibile." },
+        { icona: "👕", testo: "Usare la lavatrice a pieno carico e preferire programmi a basse temperature (30°-40°) riduce drasticamente i consumi." },
+        { icona: "❄️", testo: "Sbrinare regolarmente il congelatore è fondamentale: uno strato di ghiaccio di pochi millimetri aumenta i consumi fino al 30%." },
+        { icona: "⚡", testo: "Il forno a microonde consuma circa la metà rispetto a un forno elettrico tradizionale per scaldare piccole porzioni." },
+        { icona: "🔌", testo: "Spegnere completamente la televisione o il decoder tramite una ciabatta con interruttore evita lo spreco della luce di stand-by." },
+        { icona: "🍽️", testo: "La lavastoviglie a pieno carico consuma meno acqua e meno energia rispetto al lavaggio a mano di una pari quantità di stoviglie." },
+        { icona: "❄️", testo: "Pulire regolarmente i filtri dei condizionatori prima dell'estate evita sforzi inutili al compressore e fa calare i consumi." },
+        { icona: "💡", testo: "Una lampadina a LED consuma fino all'85% in meno di energia rispetto a una vecchia lampadina a incandescenza." },
+        { icona: "🌡️", testo: "Abbassare la temperatura del riscaldamento di appena 1 grado centigrado permette di risparmiare dal 5% al 10% sui consumi." },
+        { icona: "☀️", testo: "Laschiare le tapparelle abbassate durante le ore più calde d'estate riduce l'ingresso di calore limitando l'uso del condizionatore." }
     ];
 
-    let indicePillolaCorrente = 0;
+    let indicePillolaCorrente = -1;
+    let intervalloPillole = null;
+
+    function leggiNumeroSicuro(idElemento, fallback = 0, max = Infinity) {
+        const el = document.getElementById(idElemento);
+        if (!el) return fallback;
+        const valore = parseFloat(el.value);
+        if (!Number.isFinite(valore) || valore < 0) return fallback;
+        return Math.min(valore, max);
+    }
+
+    function aggiornaPillolaDOM(pillola) {
+        const contenitore = document.getElementById("testoPillola");
+        if (!contenitore || !pillola) return;
+
+        contenitore.textContent = "";
+        const iconaSpan = document.createElement("span");
+        iconaSpan.textContent = `${pillola.icona} `;
+
+        const etichetta = document.createElement("strong");
+        etichetta.textContent = "Consiglio Smart: ";
+
+        const testo = document.createTextNode(pillola.testo);
+
+        contenitore.append(iconaSpan, etichetta, testo);
+    }
 
     function mostraNuovaPillola() {
-        let nuovoIndice;
-        do {
-            nuovoIndice = Math.floor(Math.random() * databasePillole.length);
-        } while (nuovoIndice === indicePillolaCorrente && databasePillole.length > 1);
-        
+        if (!DATABASE_PILLOLE.length) return;
+        let nuovoIndice = 0;
+        if (DATABASE_PILLOLE.length > 1) {
+            do {
+                nuovoIndice = Math.floor(Math.random() * DATABASE_PILLOLE.length);
+            } while (nuovoIndice === indicePillolaCorrente);
+        }
         indicePillolaCorrente = nuovoIndice;
-        document.getElementById('testoPillola').innerHTML = databasePillole[indicePillolaCorrente];
+        aggiornaPillolaDOM(DATABASE_PILLOLE[indicePillolaCorrente]);
     }
 
     function calcolaConsumi() {
-        let costoKwh = parseFloat(document.getElementById('costoKwh').value) || 0;
-        let kwhFrigo = parseFloat(document.getElementById('frigo').value) || 0;
-        let lavatriciSet = parseFloat(document.getElementById('lavatrice').value) || 0;
-        let oreCond = parseFloat(document.getElementById('condizionatore').value) || 0;
-        let usaModem = parseInt(document.getElementById('modem').value) || 0;
-        let microondeSet = parseFloat(document.getElementById('microonde').value) || 0;
-        let numStandby = parseInt(document.getElementById('standby').value) || 0;
-        let lampadineTradizionali = parseInt(document.getElementById('lampadine').value) || 0;
+        const costoKwh = leggiNumeroSicuro("costoKwh", 0, 10);
+        const kwhFrigo = leggiNumeroSicuro("frigo", 250, 2000);
+        const lavatriciSet = leggiNumeroSicuro("lavatrice", 0, 50);
+        const oreCond = leggiNumeroSicuro("condizionatore", 0, 24);
+        const usaModem = leggiNumeroSicuro("modem", 0, 1);
+        const microondeSet = leggiNumeroSicuro("microonde", 0, 100);
+        const numStandby = leggiNumeroSicuro("standby", 0, 100);
+        const lampadineTradizionali = leggiNumeroSicuro("lampadine", 0, 200);
 
-        let kwhLavatrice = lavatriciSet * 52 * 1.0; 
-        let kwhCondizionatore = oreCond * 60 * 1.0;
-        let kwhModem = usaModem * 105;
-        let kwhMicroonde = microondeSet * 52 * 0.25;
-        let kwhStandby = numStandby * 5; 
-        let kwhLampadine = lampadineTradizionali * 0.040 * 3 * 365;
+        const kwhLavatrice = lavatriciSet * 52 * 1.0;
+        const kwhCondizionatore = oreCond * 60 * 1.0;
+        const kwhModem = usaModem * 105;
+        const kwhMicroonde = microondeSet * 52 * 0.25;
+        const kwhStandby = numStandby * 5;
+        const kwhLampadine = lampadineTradizionali * 0.040 * 3 * 365;
 
-        let kwhTotali = kwhFrigo + kwhLavatrice + kwhCondizionatore + kwhModem + kwhMicroonde + kwhStandby + kwhLampadine;
-        let spesaAnnua = kwhTotali * costoKwh;
+        const kwhTotali =
+            kwhFrigo +
+            kwhLavatrice +
+            kwhCondizionatore +
+            kwhModem +
+            kwhMicroonde +
+            kwhStandby +
+            kwhLampadine;
 
-        document.getElementById('spesaTotale').innerText = spesaAnnua.toFixed(2) + " € / anno";
+        const spesaAnnua = Math.max(0, kwhTotali * costoKwh);
 
-        let consiglio = "";
+        const spesaEl = document.getElementById("spesaTotale");
+        if (spesaEl) {
+            spesaEl.textContent = `${spesaAnnua.toLocaleString("it-IT", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })} € / anno`;
+        }
+
+        let consiglio = "👍 Ottima gestione generale dei carichi domestici principali!";
         if (kwhFrigo >= 350) {
-            consiglio = `⚠️ Il frigorifero è il dispositivo più energivoro: sostituirlo con un modello moderno ti farebbe risparmiare notevolmente.`;
+            consiglio = "⚠️ Il frigorifero è il dispositivo più energivoro: sostituirlo con un modello moderno ti farebbe risparmiare notevolmente.";
         } else if (lampadineTradizionali > 0) {
             consiglio = `💡 Sostituire le ${lampadineTradizionali} lampadine tradizionali con i LED ti farà tagliare subito i costi superflui.`;
-        } else {
-            consiglio = `👍 Ottima gestione generale dei carichi domestici principali!`;
         }
-        document.getElementById('consiglioRisparmio').innerText = consiglio;
+
+        const consiglioEl = document.getElementById("consiglioRisparmio");
+        if (consiglioEl) {
+            consiglioEl.textContent = consiglio;
+        }
     }
 
-    // Avvio di funzioni e calcoli iniziali
-    avviaContatoreVisite();
-    calcolaConsumi();
-    mostraNuovaPillola();
+    function avviaRotazionePillole() {
+        fermaRotazionePillole();
+        intervalloPillole = window.setInterval(mostraNuovaPillola, 20000);
+    }
 
-    setInterval(mostraNuovaPillola, 20000);
+    function fermaRotazionePillole() {
+        if (intervalloPillole !== null) {
+            window.clearInterval(intervalloPillole);
+            intervalloPillole = null;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("wattForm");
+        if (form) {
+            form.addEventListener("input", calcolaConsumi);
+            form.addEventListener("change", calcolaConsumi);
+        }
+
+        const btnPillola = document.getElementById("btnNuovaPillola");
+        if (btnPillola) {
+            btnPillola.addEventListener("click", () => {
+                mostraNuovaPillola();
+                avviaRotazionePillole();
+            });
+        }
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                fermaRotazionePillole();
+            } else {
+                avviaRotazionePillole();
+            }
+        });
+
+        calcolaConsumi();
+        mostraNuovaPillola();
+        avviaRotazionePillole();
+    });
 </script>
 
 </body>
